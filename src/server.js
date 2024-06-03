@@ -7,10 +7,10 @@ import mongoose from 'mongoose';
 
 const PORT = Number(env('PORT', '3000'));
 
-export const setupServer = ()=> {
+export const setupServer = () => {
   const app = express();
 
-   app.use(express.json());
+  app.use(express.json());
   app.use(cors());
 
   app.use(
@@ -21,7 +21,7 @@ export const setupServer = ()=> {
     }),
   );
 
-   app.get('/contacts', async (req, res) => {
+  app.get('/contacts', async (req, res) => {
     const contacts = await getAllContacts();
 
     res.status(200).json({
@@ -29,19 +29,35 @@ export const setupServer = ()=> {
       data: contacts,
       message: 'Successfully found contacts!',
     });
-   });
+  });
   
   app.get('/contacts/:contactId', async (req, res) => {
     const { contactId } = req.params;
-     
-    const contact = await getContactsById(contactId);
-  
-    res.status(200).json({
-      status: '200',
-      data: contact,
-      message: `Successfully found contact with id ${contactId}!`,
-    });
-  } );
+
+    if (!mongoose.isValidObjectId(contactId)) {
+      return res.status(400).json({
+        message: 'Invalid contact ID',
+      });
+    }
+
+    try {
+      const contact = await getContactsById(contactId);
+      if (contact) {
+        res.status(200).json({
+          data: contact,
+          message: `Successfully found contact with id ${contactId}!`,
+        });
+      } else {
+        res.status(404).json({
+          message: `Contact with id ${contactId} not found.`,
+        });
+      }
+    } catch (error) {
+      next(error);
+    }
+
+  });
+
  
 
  app.use('*', (req, res, next) => {
