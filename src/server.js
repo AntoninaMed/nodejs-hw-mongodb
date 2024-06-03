@@ -31,29 +31,17 @@ export const setupServer = ()=> {
     });
    });
   
-   app.get('/contacts/:contactId', async (req, res) => {
-     const { contactId } = req.params;
-     if (!mongoose.isValidObjectId(contactId)) {
-       return res.status(400).json({
-         message: 'Invalid contact Id',
-       });
-     }
-     try {
-       const contact = await getContactsById(contactId);
-       if (contact) {
-        res.status(200).json({
-      status:'200',
+  app.get('/contacts/:contactId', async (req, res) => {
+    const { contactId } = req.params;
+     
+    const contact = await getContactsById(contactId);
+  
+    res.status(200).json({
+      status: '200',
       data: contact,
-      message: `Successfully found contact with id ${contactId}!`, });
-       } else {
-         res.status(404).json({
-          message:'Not found'
-        })
-       }
-     } catch (error) {
-       next(error)
-     }
+      message: `Successfully found contact with id ${contactId}!`,
     });
+  } );
  
 
  app.use('*', (req, res, next) => {
