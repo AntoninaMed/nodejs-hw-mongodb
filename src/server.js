@@ -35,7 +35,7 @@ export const setupServer = ()=> {
      const { contactId } = req.params;
      if (!mongoose.isValidObjectId(contactId)) {
        return res.status(400).json({
-         message: 'Invalid contact id',
+         message: 'Invalid contact Id',
        });
      }
      try {
