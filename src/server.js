@@ -44,6 +44,7 @@ export const setupServer = () => {
       const contact = await getContactsById(contactId);
       if (contact) {
         res.status(200).json({
+          status: '200',
           data: contact,
           message: `Successfully found contact with id ${contactId}!`,
         });
