@@ -25,7 +25,7 @@ export const setupServer = () => {
     const contacts = await getAllContacts();
 
     res.status(200).json({
-      status: '200',
+      status: 200,
       data: contacts,
       message: 'Successfully found contacts!',
     });
@@ -36,6 +36,7 @@ export const setupServer = () => {
 
     if (!mongoose.isValidObjectId(contactId)) {
       return res.status(400).json({
+        status: 404,
         message: 'Invalid contact ID',
       });
     }
@@ -44,12 +45,13 @@ export const setupServer = () => {
       const contact = await getContactsById(contactId);
       if (contact) {
         res.status(200).json({
-          status: '200',
+          status: 200,
           data: contact,
           message: `Successfully found contact with id ${contactId}!`,
         });
       } else {
         res.status(404).json({
+          status: 404,
           message: `Contact with id ${contactId} not found.`,
         });
       }
