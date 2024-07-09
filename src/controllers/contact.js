@@ -3,6 +3,7 @@ import { parsePaginationParams } from "../utils/parsePaginationParams.js";
 import { parseSortParams } from "../utils/parseSortParams.js";
 import { parseFilterParams } from "../utils/parseFilterParams.js";
 import createHttpError from 'http-errors';
+import mongoose from "mongoose";
 
 
 export const getContactsController = async (req, res) => {
