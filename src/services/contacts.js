@@ -13,7 +13,7 @@ export const getAllContacts = async ({ page, perPage, sortOrder = SORT_ORDER.ASC
   if (filter.isFavourite !==null) {
     contactsQuery.where('isFavourite').equals(filter.isFavourite)
   }
-  const [contactCount, contact] = await Promise.all([
+  const [contactsCount, contacts] = await Promise.all([
     ContactsCollection.find().merge(contactsQuery).countDocuments(),
     contactsQuery
       .skip(skip)
