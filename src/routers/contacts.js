@@ -3,14 +3,15 @@ import { getContactsController, getContactByIdController, createContactControlle
 import { ctrlWrapper } from "../utils/ctrlWrapper.js";
 import { validateBody } from "../middlewares/validateBody.js";
 import { createContactSchema, updateContactSchema } from "../validation/contacts.js";
+import  validateMongoId  from '../middlewares/validateMongoId.js';
 
 const router = Router();
-
+router.use('/contacts/:contactId', validateMongoId('contactId'));
 
 router.get('/contacts', ctrlWrapper(getContactsController));
   
-router.get('/contacts/:contactId',
-    ctrlWrapper(getContactByIdController));
+router.get('/contacts/:contactId'
+, ctrlWrapper(getContactByIdController));
 
 router.post('/contacts',
     validateBody(createContactSchema),
