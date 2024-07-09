@@ -5,7 +5,6 @@ import router from './routers/contacts.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { env } from './utils/env.js';
-import mongoose from 'mongoose';
 
 const PORT = Number(env('PORT', '3000'));
 
