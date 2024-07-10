@@ -1,7 +1,7 @@
 import createHttpError from 'http-errors';
 import { isValidObjectId } from 'mongoose';
 
-const validateMongoId =
+export const validateMongoId =
   (idName = 'id') =>
   (req, res, next) => {
     const id = req.params[idName];

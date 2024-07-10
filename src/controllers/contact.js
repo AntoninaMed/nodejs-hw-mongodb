@@ -10,7 +10,8 @@ export const getContactsController = async (req, res) => {
     const { sortBy, sortOrder } = parseSortParams(req.query);
     const { page, perPage } = parsePaginationParams(req.query);
     const filter = parseFilterParams(req.query);
-  const contacts = await getAllContacts({ page, perPage, sortBy, sortOrder, filter });
+    const userId = req.user._id;
+  const contacts = await getAllContacts({ userId, page, perPage, sortBy, sortOrder, filter });
 	
     res.json({
         status: 200,
@@ -22,8 +23,8 @@ export const getContactsController = async (req, res) => {
   
 export const getContactByIdController = async (req, res, next) => {
     const { contactId } = req.params;
-
-    if (!mongoose.isValidObjectId(contactId)) {
+const userId = req.user._id;
+    if (!mongoose.isValidObjectId(userId, contactId)) {
         return res.status(400).json({
             status: 404,
             message: 'Invalid contact Id',
@@ -51,8 +52,9 @@ export const createContactController = async (req, res) => {
                 message: 'Name and phone number are required.',
             });
         }
-    
+    const userId = req.user._id;
         const newContact = await createContact({
+            userId,
             name,
             phoneNumber,
             email,
@@ -75,8 +77,9 @@ export const createContactController = async (req, res) => {
 };
 
   export const patchContactController = async (req, res, next) => {
-  const { contactId } = req.params;
-  const result = await updateContact(contactId, req.body);
+      const { contactId } = req.params;
+      const userId = req.user._id;
+  const result = await updateContact(userId, contactId, req.body);
 
   if (!result) {
     next(createHttpError(404, 'Contact not found'));
