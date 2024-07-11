@@ -13,7 +13,7 @@ export const getContactsController = async (req, res) => {
     const userId = req.user._id;
   const contacts = await getAllContacts({ userId, page, perPage, sortBy, sortOrder, filter });
 	
-    res.json({
+    res.status(200).json({
         status: 200,
         message: 'Successfully found contacts!',
         data: contacts,
@@ -24,14 +24,8 @@ export const getContactsController = async (req, res) => {
 export const getContactByIdController = async (req, res, next) => {
     const { contactId } = req.params;
 const userId = req.user._id;
-    if (!mongoose.isValidObjectId(userId, contactId)) {
-        return res.status(400).json({
-            status: 404,
-            message: 'Invalid contact Id',
-        });
-    };
 
-        const contact = await getContactsById(contactId);
+        const contact = await getContactsById(userId, contactId);
         if (!contact) {
            next(createHttpError(404, 'Contact not found'));
     return;
@@ -96,7 +90,7 @@ export const createContactController = async (req, res) => {
 
 export const deleteContactController = async (req, res, next) => {
     const { contactId } = req.params;
-    const contact = await deleteContact(contactId);
+    const contact = await deleteContact(userId, contactId);
     if (!contact) {
         next(createHttpError(404, 'Contact not found'));
         return;
