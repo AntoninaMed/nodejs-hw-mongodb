@@ -7,6 +7,7 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { env } from './utils/env.js';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+import { UPLOAD_DIR } from './constants/index.js';
 
 const PORT = Number(env('PORT', '3000'));
 
@@ -35,10 +36,11 @@ app.get('/', (req, res) => {
   app.use('*', notFoundHandler);
 
   app.use(errorHandler);
-  
+   app.use('/uploads', express.static(UPLOAD_DIR));
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
+  
 };
   
