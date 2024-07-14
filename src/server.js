@@ -36,7 +36,8 @@ app.get('/', (req, res) => {
   app.use('*', notFoundHandler);
 
   app.use(errorHandler);
-   app.use('/uploads', express.static(UPLOAD_DIR));
+
+ app.use('/uploads', express.static(UPLOAD_DIR));
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

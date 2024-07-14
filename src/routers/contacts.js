@@ -19,13 +19,11 @@ router.post('/',
     validateBody(createContactSchema),
     ctrlWrapper(createContactController));
 
+router.delete('/:contactId', ctrlWrapper(deleteContactController));
 
 router.patch('/:contactId',
     upload.single('photo'),
     validateBody(updateContactSchema),
     ctrlWrapper(patchContactController));
-
-router.delete('/:contactId', ctrlWrapper(deleteContactController));
-
 
 export default router;
